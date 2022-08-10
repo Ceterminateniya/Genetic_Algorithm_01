@@ -5,6 +5,13 @@ from secrets import choice
 from statistics import variance
 from tkinter import E
 
+
+def get_data():
+    number_set = []
+    for i in range(10):
+        number_set.append(i)
+    return number_set
+
 def create_answer(number_set,n): #随机选择n个数字作为答案，并返回答案(生成种群)
     result = []
     for i in range(n):
