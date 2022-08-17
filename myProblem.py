@@ -14,8 +14,44 @@ class my_problem(ea.Problem): # 继承父类Problem
         maxormins = [1] * M # 初始化maxormins（目标函数最小最大化标记，可以有多个目标函数）
         varTypes = [0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
         #varTypes = [0]*Dim # 初始化varTypes（决策变量的类型，0：实数；1：整数）
-        lb = [0.5,0.01,13,3,0,-30,8,-13,7,0,1,-16,-3,-30,0,2,-3,0,-1] # 初始化lb（决策变量下界）
-        ub = [2.1,0.1,21,12,44.5,40,30,1,11,6,2,8,5,1,1,3,-2,4,3] # 初始化ub（决策变量上界）
+        lb = [0.5,
+              0.01,
+              5,
+              3,
+              0,
+              -30,
+              5,
+              -13,
+              0,
+              -1,
+              0,
+              -40,
+              -3,
+              -30,
+              0,
+              0,
+              -3,
+              0,
+              -1] # 初始化lb（决策变量下界）
+        ub = [7.0,
+              0.8,
+              21,
+              15,
+              60,
+              40,
+              30,
+              3,
+              15,
+              6,
+              2,
+              8,
+              5,
+              1,
+              3,
+              4,
+              2,
+              4,
+              3] # 初始化ub（决策变量上界）
         # lb=[0]*Dim
         # ub=[1]*Dim
         lbin = [1] * Dim # 初始化lbin（决策变量下边界类型，0：不包含下边界，1：包含下边界）
@@ -23,20 +59,21 @@ class my_problem(ea.Problem): # 继承父类Problem
         # 调用父类构造方法完成实例化
         ea.Problem.__init__(self, name, M, maxormins, Dim, varTypes, lb, ub, lbin, ubin)
 
+    def calf(coff,aimMatrix):
+        f=np.zeros((aimMatrix.shape[0],1), dtype=np.float)
+        for i in range(aimMatrix.shape[1]):
+            f=f+coff[i]*aimMatrix[:,[i]]
+        return f
+
     def aimFunc(self, pop): # 目标函数
         Vars = pop.Phen # 得到决策变量矩阵
-        aimMarix=[]
-        for i in range(Vars.shape[1]): 
-            aimMarix.append(Vars[:, [i]])
+        aimMatrix=np.array(Vars)
+        for i in range(aimMatrix.shape[1]):
+            aimMatrix[:, [i]] = 1.0 / (1 + np.exp(-(aimMatrix[:, [i]])))  # 第0列均值方差归一化
             
-        f = (0.3*aimMarix[0]**2 + 0.2*aimMarix[1]**2 + 0.05*aimMarix[2] + 0.05*aimMarix[3] + 
-            0.05*aimMarix[4] + 0.05*aimMarix[5]+0.01*aimMarix[6]+0.01*aimMarix[7]+0.01*aimMarix[8]+
-            0.01*aimMarix[9]+0.01*aimMarix[10]+0.01*aimMarix[11]+0.01*aimMarix[12]+0.01*aimMarix[13]+
-            0.01*aimMarix[14]+0.01*aimMarix[15]+0.01*aimMarix[16]+0.01*aimMarix[17]+0.01*aimMarix[18])
+        coff=np.array([8,5,4,4,5,5,2,3,4,5,3,4,3,2,3,2,5,4,3])
+        f = np.sin(my_problem.calf(coff,aimMatrix))
         pop.ObjV = f # 计算目标函数值，赋值给pop种群对象的ObjV属性
-        f1=np.hstack([aimMarix[0]-2,aimMarix[1],
-                      aimMarix[7]-aimMarix[10],aimMarix[8]-aimMarix[11],aimMarix[9]-aimMarix[12],
-                      aimMarix[13]-aimMarix[16],aimMarix[14]-aimMarix[17],aimMarix[15]-aimMarix[18]])
-        pop.CV= f1
+     
         
         
