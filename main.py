@@ -1,12 +1,12 @@
 import random as rd
 import numpy as np
 import geatpy as ea
-import sys
-sys.path.append("F:/First/University_03/Material/ZJDX/Program/Genetic_Algorithm_01/")
+# import sys
+# sys.path.append("F:/First/University_03/Material/ZJDX/Program/Genetic_Algorithm_01/")
 from myProblem import my_problem # 导入自定义问题类
 import pandas as pd
 
-path = 'F:/First/University_03/Material/ZJDX/Program/Genetic_Algorithm_01/data.xlsx'
+path = './Genetic_Algorithm_01/data.xlsx'
 data = np.array(pd.read_excel(path,header=None))
 
 #print(type(data))

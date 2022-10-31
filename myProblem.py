@@ -3,7 +3,7 @@ import numpy as np
 import geatpy as ea
 
 #交互式遗传算法
-#Problem：导入7种初始种群，每种种群为1个一维数组，每个数组为1个种群。
+#Problem：导入10种初始种群，每种种群为1个一维数组，每个数组为1个种群。
 
 class my_problem(ea.Problem): # 继承父类Problem
     def __init__(self): # 初始化问题相关参数
@@ -74,6 +74,3 @@ class my_problem(ea.Problem): # 继承父类Problem
         coff=np.array([8,5,4,4,5,5,2,3,4,5,3,4,3,2,3,2,5,4,3])
         f = np.sin(my_problem.calf(coff,aimMatrix))
         pop.ObjV = f # 计算目标函数值，赋值给pop种群对象的ObjV属性
-     
-        
-        
